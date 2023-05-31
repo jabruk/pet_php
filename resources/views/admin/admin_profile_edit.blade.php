@@ -9,7 +9,7 @@
                     <div class="card-body">
 
                         <h1 class="card-title">Edit profile form</h1>
-                        <form method="post" action="{{ route('admin.profile.store') }}" enctype="mu;tpart/form-data">
+                        <form method="post" action="{{ route('admin.profile.store') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3 row">
                                 <label for="example-text-input" class="col-sm-1 col-form-label">Name</label>
@@ -43,7 +43,10 @@
                                 <label for="example-text-input" class="col-sm-1 col-form-label"></label>
 
                                 <div class="col-sm-10">
-                                    <img id="showImage" class="rounded avatar-lg" src="{{ asset('backend/assets/images/small/img-5.jpg') }}" alt="Card image cap">
+                                    <img id="showImage" class="rounded avatar-lg" src="{{                                
+                                        ( !empty($user->profile_image)) ? 
+                                        url('uploads/admin_images/'.$user->profile_image) : 
+                                        url('uploads/no_image.jpg') }}" alt="Card image cap">
                                 </div>
                             </div>
                             <!-- end row -->

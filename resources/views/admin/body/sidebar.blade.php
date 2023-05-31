@@ -2,16 +2,7 @@
 
     <div data-simplebar class="h-100">
 
-        <!-- User details -->
-        <div class="mt-3 text-center user-profile">
-            <div class="">
-                <img src="{{ asset('backend/assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-md rounded-circle">
-            </div>
-            <div class="mt-3">
-                <h4 class="mb-1 font-size-16">Julia Hudda</h4>
-                <span class="text-muted"><i class="align-middle ri-record-circle-line font-size-14 text-success"></i> Online</span>
-            </div>
-        </div>
+
 
         <!--- Sidemenu -->
         <div id="sidebar-menu">
@@ -20,7 +11,7 @@
                 <li class="menu-title">Menu</li>
 
                 <li>
-                    <a href="index.html" class="waves-effect">
+                    <a href="{{ route('dashboard') }}" class="waves-effect">
                         <i class="ri-dashboard-line"></i><span class="badge rounded-pill bg-success float-end">3</span>
                         <span>Dashboard</span>
                     </a>
