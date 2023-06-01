@@ -23,7 +23,10 @@ Route::prefix('admin')->controller(AdminController::class)->group(function(){
     Route::get('/logout', 'destroy')->name('admin.logout');
     Route::get('/profile', 'profile')->name('admin.profile');
     Route::get('/profile/edit', 'edit')->name('admin.profile.edit');
+    Route::get('/change/password', 'changePassword')->name('change.password');
+
     Route::post('/profile/store', 'store')->name('admin.profile.store');
+    Route::post('/update/password', 'updatePassword')->name('admin.update.password');
 });
 
 

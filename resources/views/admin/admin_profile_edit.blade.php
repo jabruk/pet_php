@@ -33,7 +33,7 @@
                             </div>
                             <!-- end row -->
                             <div class="mb-3 row">
-                                <label for="example-text-input" class="col-sm-1 col-form-label">Username</label>
+                                <label for="example-text-input" class="col-sm-1 col-form-label">Image</label>
                                 <div class="col-sm-10">
                                     <input name="profile_image" class="form-control" type="file" id="image" >
                                 </div>
@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                             <!-- end row -->
-                            <input type="submit" class="btn btn-info waves-effect waves-light">Update profile</input>
+                            <input type="submit" class="btn btn-info waves-effect waves-light" value="Update profile"></input>
                         </form>
                     </div>
                 </div>
