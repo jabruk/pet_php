@@ -15,13 +15,13 @@ class AdminController extends Controller
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $_request): RedirectResponse
     {
         Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
+        $_request->session()->invalidate();
 
-        $request->session()->regenerateToken();
+        $_request->session()->regenerateToken();
 
         return redirect('/login');
     }
@@ -56,18 +56,18 @@ class AdminController extends Controller
     /**
      * Update password.
      */
-    public function updatePassword(Request $request)
+    public function updatePassword(Request $_request)
     {
         $user = Auth::user();
-        $validateData = $request->validate([
+        $validateData = $_request->validate([
             'oldpassword' => 'required',
             'newpassword' => 'required',
             'confirm_password' => 'required|same:newpassword',
         ]);
         $hashedPassword = $user->password; 
-        if (Hash::check($request->oldpassword, $hashedPassword)) {
+        if (Hash::check($_request->oldpassword, $hashedPassword)) {
             $user = User::find($user->id);
-            $user->password = bcrypt($request->newpassword);
+            $user->password = bcrypt($_request->newpassword);
 
             $user->save();
 
@@ -82,13 +82,13 @@ class AdminController extends Controller
     /**
      * Store a profile data.
      */
-    public function store(Request $request)
+    public function store(Request $_request)
     {
         $user = User::find(Auth::user()->id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->username = $request->username;
-        $file = $request->file('profile_image');
+        $user->name = $_request->name;
+        $user->email = $_request->email;
+        $user->username = $_request->username;
+        $file = $_request->file('profile_image');
         if ( $file ) {
             $fileName = date('YmdHi').$file->getClientOriginalName();
             $file->move(public_path('uploads/admin_images'),$fileName);
