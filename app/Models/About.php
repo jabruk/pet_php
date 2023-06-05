@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class HomeSlide extends Model
+class About extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -14,9 +14,10 @@ class HomeSlide extends Model
      */
     protected $fillable = [
         'title',
+        'short_title',
         'short_description',
-        'home_image',
-        'video_url',
+        'long_description',
+        'about_image',
     ];
     use HasFactory;
 }

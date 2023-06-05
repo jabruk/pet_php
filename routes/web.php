@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Home\HomeSlideController;
+use App\Http\Controllers\Home\AboutController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,7 @@ Route::get('/', function () {
 });
 
 
-Route::prefix('admin')->controller(AdminController::class)->group(function(){
+Route::middleware(['auth', 'verified'])->prefix('admin')->controller(AdminController::class)->group(function(){
     Route::get('/logout', 'destroy')->name('admin.logout');
     Route::get('/profile', 'profile')->name('admin.profile');
     Route::get('/profile/edit', 'edit')->name('admin.profile.edit');
@@ -30,9 +31,15 @@ Route::prefix('admin')->controller(AdminController::class)->group(function(){
     Route::post('/update/password', 'updatePassword')->name('admin.update.password');
 });
 
-Route::prefix('admin')->controller(HomeSlideController::class)->group(function(){
+Route::controller(HomeSlideController::class)->group(function(){
     Route::get('/home/slide', 'homeSlider')->name('home.slider');
-    Route::post('/update/slide', 'updateSlider')->name('update.slider');
+    Route::middleware(['auth', 'verified'])->prefix('admin')->post('/update/slide', 'updateSlider')->name('update.slider');
+});
+
+Route::controller(AboutController::class)->group(function(){
+    Route::get('/about/page', 'aboutPage')->name('about.page');
+    Route::get('/about', 'homeAbout')->name('home.about');
+    Route::post('/update/about', 'updateAbout')->name('update.about');
 });
 
 Route::get('/dashboard', function () {
