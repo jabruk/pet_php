@@ -100,6 +100,12 @@
         <!-- init js -->
         <script src="{{ asset('backend/assets/js/pages/form-editor.init.js') }}"></script>
 
+        <!-- table-datatable -->
+        <script src="{{ asset('backend/assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('backend/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('backend/assets/js/pages/datatables.init.js') }}"></script>
+
+
         <script>
             @if (Session::has('message'))
             var type = "{{ Session::get('alert-type','info') }}"
@@ -119,6 +125,8 @@
             }
             @endif 
         </script>
+
+        @yield('script')
     </body>
 
 </html>

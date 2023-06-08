@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Home;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\About;
+use App\Models\MultiImage;
+use Illuminate\Support\Carbon;
 use Intervention\Image\Facades\Image;
 class AboutController extends Controller
 {
@@ -70,4 +72,52 @@ class AboutController extends Controller
         }
     }
 
+    /**
+     * Admin multi image
+     */
+    public function aboutMultiImage(){
+        return view('admin.about_page.multi_image');
+    }
+    
+    /**
+     * Store Images
+     */
+    public function storeMultiImage(Request $request){
+       $images =  $request->file('multi_image');
+
+       foreach ( $images as $image) {
+            $nameGen = hexdec(uniqid()) .'.'. $image->getClientOriginalExtension();
+            $imageLocation = 'uploads/multi_image/' . $nameGen; 
+
+            Image::make($image)->resize(220,220)->save($imageLocation);
+
+            MultiImage::insert([
+                'multi_image' => $imageLocation,
+                'created_at' => Carbon::now(),
+            ]);
+        }
+        $notification = array(
+            'message' => "Multiple image has been inserted successfully",
+            'alert-type' => 'success'
+        );
+       return redirect()->back()->with($notification);
+
+    }
+
+    /**
+     * Show multi image
+     */
+    public function allMultiImage(){
+        $allMultiImage = MultiImage::all();
+        return view('admin.about_page.all_multi_image', compact('allMultiImage'));
+    }
+
+    /**
+     * 
+     * Edit Multi Emage
+     */
+    public function editMultiImage($id){
+        $multiImage = MultiImage::findOrFail($id);
+        return view('admin.about_page.edit_multi_image',compact('multiImage'));
+    }
 }
