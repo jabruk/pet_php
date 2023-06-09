@@ -34,15 +34,11 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>
-                                        <img src="{{ asset($item->multi_image) }}" style="width: 60ps; height: 60px;">
+                                        <img src="{{ asset($item->multi_image) }}" name="aboutImage" style="width: 60ps; height: 60px;">
                                     </td>
                                     <td>
-                                        <a href="{{ route('edit.multi.image', $item->id) }}" class="btn btn-info sm " data-bs-toggle="modal" data-bs-target="#modal-centered" data-bs-whatever="{{ $item }}" title="Edit data" value="{{ asset($item->multi_image) }}">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="" class="btn btn-danger sm" title="Delete data">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
+                                        <button id="editCompany" class=" fas fa-edit btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target='#practice_modal' data-id="{{ $item->id }}" data-item="{{ $item }}"></button>
+                                        <a href="{{ route('delete.multi.image', $item->id) }}" id="delete" class="btn btn-danger btn btn-primary fas fa-trash-alt waves-effect waves-light" title="Delete data"></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -56,20 +52,23 @@
     </div> <!-- container-fluid -->
 </div>
 
-<div class="modal fade" id="modal-centered" tabindex="-1" aria-labelledby="modalCenteredLabel" aria-hidden="true">
+<div class="modal fade" id="practice_modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalCenteredLabel">New message</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form method="post" action="{{ route('all.multi.image') }}" enctype="multipart/form-data">
-                    @csrf
+            <form method="post" action="{{ route('edit.multi.image') }}" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="id" id="id">
+
+                <div class="modal-body">
+
                     <div class="mb-3 row">
                         <label for="example-text-input" class="col-sm-2 col-form-label">About Multi Image</label>
                         <div class="col-sm-10">
-                            <input name="multi_image[]" class="form-control" type="file" id="image" multiple="" value="{{ url('uploads/no_image.jpg') }}">
+                            <input name="multi_image" class="form-control" type="file" id="image" multiple="" value="{{ asset('uploads/no_image.jpg') }}" required>
                         </div>
                     </div>
                     <!-- end row -->
@@ -77,17 +76,16 @@
                         <label for="example-text-input" class="col-sm-1 col-form-label"></label>
 
                         <div class="col-sm-10">
-                            <img id="showImage" class="rounded avatar-lg" src="
-                            {{ $item->multi_image ? asset($item->multi_image) : url('uploads/no_image.jpg') }}" alt="Card image cap">
+                            <img id="showImage" name="showImage" class="rounded avatar-lg" alt="Card image cap">
                         </div>
                     </div>
                     <!-- end row -->
-            </div>
+                </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Send message</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="delete" class="btn btn-primary">Update</button>
+                </div>
             </form>
 
         </div>
@@ -99,15 +97,27 @@
 
 @section('script')
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('#image').change(function(e){
+    $(document).ready(function() {
+        $('#image').change(function(e) {
+            console.log(e);
             let reader = new FileReader();
-            reader.onload = function(e){
+            reader.onload = function(e) {
                 $('#showImage').attr('src', e.target.result);
             }
             reader.readAsDataURL(e.target.files['0']);
 
         })
+        $('body').on('click', '#editCompany', function(event) {
+
+            event.preventDefault();
+            var id = $(this).data('id');
+            $('#id').val(id);
+
+            let path = $(this).data('item').multi_image;
+            let fullPath = `{{ asset('${path}') }}`;
+            $('#showImage').attr('src', fullPath);
+        });
     })
 </script>
+
 @endsection

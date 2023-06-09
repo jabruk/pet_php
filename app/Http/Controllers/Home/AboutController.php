@@ -32,7 +32,7 @@ class AboutController extends Controller
      */
     public function updateAbout(Request $_request){
         $about_id = $_request->id;
-
+        
         if ($_request->file('about_image')) {
 
             $image = $_request->file('about_image');
@@ -116,8 +116,43 @@ class AboutController extends Controller
      * 
      * Edit Multi Emage
      */
-    public function editMultiImage($id){
-        $multiImage = MultiImage::findOrFail($id);
-        return view('admin.about_page.edit_multi_image',compact('multiImage'));
+    public function editMultiImage(Request $_request){
+        if ($_request->file('multi_image')) {
+            $multi_image_id = $_request->id;
+            $image = $_request->file('multi_image');
+            $nameGen = hexdec(uniqid()) .'.'. $image->getClientOriginalExtension();
+            $imageLocation = 'uploads/home_about/' . $nameGen; 
+
+            Image::make($image)->resize(220,220)->save($imageLocation);
+
+            MultiImage::findOrFail($multi_image_id)->update([
+                'multi_image' => $imageLocation,
+            ]);
+
+            $notification = array(
+                'message' => "Multi Image has been updated successfully",
+                'alert-type' => 'success'
+            );
+            return redirect()->back()->with($notification);
+    
+        }
+    }
+
+        /**
+     * 
+     * Delete Multi Emage
+     */
+    public function deleteMultiImage($id){
+        $multi = MultiImage::findOrFail($id);
+        unlink($multi->multi_image);
+        MultiImage::findOrFail($id)->delete();
+
+        $notification = array(
+            'message' => "Multi Image has been deleted successfully",
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+
+
     }
 }

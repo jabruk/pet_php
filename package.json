@@ -15,6 +15,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "metismenu": "^3.0.7"
+        "metismenu": "^3.0.7",
+        "sweetalert2": "^11.7.12"
     }
 }

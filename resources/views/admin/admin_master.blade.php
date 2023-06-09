@@ -105,7 +105,8 @@
         <script src="{{ asset('backend/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
         <script src="{{ asset('backend/assets/js/pages/datatables.init.js') }}"></script>
 
-
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="{{ asset('backend/assets/js/additional/code.js') }}"></script>
         <script>
             @if (Session::has('message'))
             var type = "{{ Session::get('alert-type','info') }}"
